@@ -1,33 +1,28 @@
 // draggableNode.js
 
-export const DraggableNode = ({ type, label }) => {
-    const onDragStart = (event, nodeType) => {
-      const appData = { nodeType }
+export const DraggableNode = ({ config }) => {
+    const { type, label, icon: Icon, accent } = config;
+
+    const onDragStart = (event) => {
       event.target.style.cursor = 'grabbing';
-      event.dataTransfer.setData('application/reactflow', JSON.stringify(appData));
+      event.dataTransfer.setData('application/reactflow', JSON.stringify({ nodeType: type }));
       event.dataTransfer.effectAllowed = 'move';
     };
-  
+
     return (
       <div
-        className={type}
-        onDragStart={(event) => onDragStart(event, type)}
+        className={`palette-item palette-item--${type}`}
+        style={{ '--node-accent': accent }}
+        onDragStart={onDragStart}
         onDragEnd={(event) => (event.target.style.cursor = 'grab')}
-        style={{ 
-          cursor: 'grab', 
-          minWidth: '80px', 
-          height: '60px',
-          display: 'flex', 
-          alignItems: 'center', 
-          borderRadius: '8px',
-          backgroundColor: '#1C2536',
-          justifyContent: 'center', 
-          flexDirection: 'column'
-        }} 
         draggable
       >
-          <span style={{ color: '#fff' }}>{label}</span>
+        {Icon && (
+          <span className="palette-item__icon">
+            <Icon size={16} strokeWidth={2.25} />
+          </span>
+        )}
+        <span className="palette-item__label">{label}</span>
       </div>
     );
   };
-  

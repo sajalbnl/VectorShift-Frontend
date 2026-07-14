@@ -1,6 +1,8 @@
 // store.js
 
-import { create } from "zustand";
+// createWithEqualityFn (not `create`) is what supports the useStore(selector, shallow)
+// overload in zustand v4 without a deprecation warning.
+import { createWithEqualityFn } from "zustand/traditional";
 import {
     addEdge,
     applyNodeChanges,
@@ -8,9 +10,10 @@ import {
     MarkerType,
   } from 'reactflow';
 
-export const useStore = create((set, get) => ({
+export const useStore = createWithEqualityFn((set, get) => ({
     nodes: [],
     edges: [],
+    nodeIDs: {},
     getNodeID: (type) => {
         const newIDs = {...get().nodeIDs};
         if (newIDs[type] === undefined) {
@@ -42,13 +45,13 @@ export const useStore = create((set, get) => ({
     },
     updateNodeField: (nodeId, fieldName, fieldValue) => {
       set({
-        nodes: get().nodes.map((node) => {
-          if (node.id === nodeId) {
-            node.data = { ...node.data, [fieldName]: fieldValue };
-          }
-  
-          return node;
-        }),
+        // Replace the node rather than mutating it: React Flow memoizes nodes by
+        // object identity, so an in-place edit renders stale (typing looks frozen).
+        nodes: get().nodes.map((node) =>
+          node.id === nodeId
+            ? { ...node, data: { ...node.data, [fieldName]: fieldValue } }
+            : node
+        ),
       });
     },
   }));
