@@ -1,0 +1,80 @@
+/* theme.css
+   Design tokens. Every other stylesheet reads from these and hardcodes nothing,
+   so the whole app is restyled by editing this file alone.
+   -------------------------------------------------- */
+
+:root {
+  /* Surfaces */
+  --canvas: #f5f6f8;
+  --surface: #ffffff;
+  --surface-sunken: #fafbfc;
+  --surface-hover: #f4f5f7;
+
+  /* Lines */
+  --border: #e5e7eb;
+  --border-strong: #d3d7de;
+  --dots: #d5d8de;
+
+  /* Type */
+  --text: #101828;
+  --text-muted: #667085;
+  --text-subtle: #98a2b3;
+
+  /* Brand */
+  --primary: #5b5bd6;
+  --primary-strong: #4a4ac4;
+  --primary-soft: #eef0fd;
+
+  /* Wires */
+  --edge: #b4b9c4;
+  --edge-active: var(--primary);
+
+  /* Every node card sets its own --node-accent; this is the fallback. */
+  --node-accent: var(--primary);
+
+  /* Shape */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* Depth */
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.08), 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(16, 24, 40, 0.1), 0 2px 6px -2px rgba(16, 24, 40, 0.05);
+  --shadow-lg: 0 12px 28px -6px rgba(16, 24, 40, 0.16), 0 4px 10px -4px rgba(16, 24, 40, 0.08);
+
+  /* Focus */
+  --ring: 0 0 0 3px rgba(91, 91, 214, 0.14);
+  --ring-accent: 0 0 0 3px color-mix(in srgb, var(--node-accent) 16%, transparent);
+
+  /* Motion — one curve, one duration, so nothing feels out of step. */
+  --ease: cubic-bezier(0.2, 0, 0.1, 1);
+  --fast: 120ms;
+  --normal: 180ms;
+
+  /* Type scale */
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --text-xs: 10px;
+  --text-sm: 11px;
+  --text-base: 12px;
+  --text-md: 13px;
+  --text-lg: 15px;
+
+  /* Layout */
+  --header-height: 56px;
+  --sidebar-width: 232px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

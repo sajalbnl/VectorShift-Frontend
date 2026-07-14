@@ -1,0 +1,198 @@
+/* nodes.css
+   Node cards, form fields, handles. Everything keys off --node-accent, which
+   each card sets from its own config — so one rule styles nine node types.
+   -------------------------------------------------- */
+
+.node {
+  width: 220px;
+  font-family: var(--font);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--normal) var(--ease), border-color var(--normal) var(--ease);
+}
+
+.node:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.node--selected {
+  border-color: var(--node-accent);
+  box-shadow: var(--shadow-lg), var(--ring-accent);
+}
+
+/* Header --------------------------------------------------- */
+
+.node__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 11px;
+  border-bottom: 1px solid var(--border);
+}
+
+.node__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  color: var(--node-accent);
+  background: color-mix(in srgb, var(--node-accent) 12%, transparent);
+  border-radius: 6px;
+}
+
+.node__title {
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--text);
+}
+
+.node__body {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 11px;
+}
+
+/* Fields --------------------------------------------------- */
+
+.node-field__label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.node-control {
+  width: 100%;
+  padding: 7px 9px;
+  font-family: var(--font);
+  font-size: var(--text-base);
+  color: var(--text);
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--fast) var(--ease), box-shadow var(--fast) var(--ease),
+    background var(--fast) var(--ease);
+}
+
+.node-control:hover {
+  border-color: var(--border-strong);
+}
+
+.node-control:focus {
+  outline: none;
+  background: var(--surface);
+  border-color: var(--node-accent);
+  box-shadow: var(--ring-accent);
+}
+
+.node-control::placeholder {
+  color: var(--text-subtle);
+}
+
+select.node-control {
+  cursor: pointer;
+  /* Native arrow is inconsistent across platforms; draw our own. */
+  appearance: none;
+  padding-right: 26px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23667085' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+}
+
+.node-control--area {
+  resize: vertical;
+  min-height: 56px;
+  line-height: 1.5;
+}
+
+.node-control--checkbox {
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  cursor: pointer;
+  accent-color: var(--node-accent);
+}
+
+/* Checkbox reads as "[x] Label", not a label stacked over a box. */
+.node-field--checkbox {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.node-field--checkbox .node-field__label {
+  margin-bottom: 0;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* Text node ------------------------------------------------ */
+
+/* Height is driven by JS (scrollHeight), so the user must not be able to fight
+   it with the native grabber, and it must never show its own scrollbar. */
+.node-control--template {
+  min-height: 32px;
+  overflow: hidden;
+  resize: none;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.text-node__hint {
+  margin: 7px 0 0;
+  font-size: var(--text-xs);
+  line-height: 1.45;
+  color: var(--text-subtle);
+}
+
+/* Handles -------------------------------------------------- */
+
+.node__handle.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  background: var(--surface);
+  border: 2px solid var(--node-accent);
+  border-radius: 50%;
+  transition: transform var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
+}
+
+.node__handle.react-flow__handle:hover,
+.node__handle.react-flow__handle.connectingto {
+  transform: scale(1.35);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--node-accent) 20%, transparent);
+}
+
+.node__handle-label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--text-subtle);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.react-flow__handle-left .node__handle-label {
+  right: calc(100% + 8px);
+}
+
+.react-flow__handle-right .node__handle-label {
+  left: calc(100% + 8px);
+}

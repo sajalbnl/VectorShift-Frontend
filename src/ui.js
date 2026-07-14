@@ -3,15 +3,19 @@
 // --------------------------------------------------
 
 import { useState, useRef, useCallback } from 'react';
-import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
+import ReactFlow, { Controls, Background, BackgroundVariant, MiniMap } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
-import { nodeTypes, getInitNodeData } from './nodes/nodeRegistry';
+import { nodeTypes, getInitNodeData, NODE_CONFIGS } from './nodes/nodeRegistry';
 
 import 'reactflow/dist/style.css';
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
+
+// Minimap dots inherit each node's accent straight from its config, so a new
+// node type shows up correctly in the minimap without touching this file.
+const miniMapNodeColor = (node) => NODE_CONFIGS[node.type]?.accent ?? '#d3d7de';
 
 const selector = (state) => ({
   nodes: state.nodes,
@@ -90,9 +94,17 @@ export const PipelineUI = () => {
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType='smoothstep'
             >
-                <Background color="#aaa" gap={gridSize} />
-                <Controls />
-                <MiniMap />
+                {/* Dot colour comes from --dots in canvas.css, not a literal here. */}
+                <Background variant={BackgroundVariant.Dots} gap={gridSize} size={1} />
+                <Controls showInteractive={false} />
+                <MiniMap
+                    pannable
+                    zoomable
+                    nodeColor={miniMapNodeColor}
+                    nodeBorderRadius={3}
+                    maskColor="transparent"
+                />
+
             </ReactFlow>
         </div>
     )

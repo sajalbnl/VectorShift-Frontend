@@ -1,10 +1,12 @@
 // submit.js
 
-export const SubmitButton = () => {
+import { Play } from 'lucide-react';
 
+export const SubmitButton = () => {
     return (
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <button type="submit">Submit</button>
-        </div>
+        <button type="submit" className="submit__button">
+            <Play size={13} strokeWidth={2.5} fill="currentColor" />
+            Run pipeline
+        </button>
     );
 }

@@ -1,0 +1,112 @@
+/* canvas.css
+   Overrides for React Flow's built-in chrome so the canvas matches the shell.
+   -------------------------------------------------- */
+
+.canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.react-flow {
+  background: var(--canvas);
+}
+
+/* Background renders its dots as <circle>; recolour them from the token rather
+   than passing a literal hex through JSX. */
+.react-flow__background circle {
+  fill: var(--dots);
+}
+
+/* React Flow draws a focus outline on the node wrapper; the card draws its own
+   selected state, so the default would double up. */
+.react-flow__node:focus,
+.react-flow__node:focus-visible {
+  outline: none;
+}
+
+.react-flow__node {
+  font-family: var(--font);
+}
+
+/* Edges ---------------------------------------------------- */
+
+.react-flow__edge-path {
+  stroke: var(--edge);
+  stroke-width: 2;
+}
+
+.react-flow__edge.selected .react-flow__edge-path,
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke: var(--edge-active);
+  stroke-width: 2.5;
+}
+
+.react-flow__arrowhead polyline {
+  stroke: var(--edge);
+  fill: var(--edge);
+}
+
+/* The wire being dragged out of a handle. */
+.react-flow__connection-path {
+  stroke: var(--primary);
+  stroke-width: 2;
+  stroke-dasharray: 4 4;
+}
+
+/* Controls -------------------------------------------------- */
+
+.react-flow__controls {
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.react-flow__controls-button {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: none;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none;
+}
+
+.react-flow__controls-button:hover {
+  color: var(--primary);
+  background: var(--surface-hover);
+}
+
+.react-flow__controls-button svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
+/* MiniMap --------------------------------------------------- */
+
+.react-flow__minimap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.react-flow__minimap-mask {
+  fill: color-mix(in srgb, var(--canvas) 70%, transparent);
+  stroke: var(--border-strong);
+  stroke-width: 1;
+}
+
+/* Selection ------------------------------------------------- */
+
+.react-flow__selection {
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+  border: 1px solid var(--primary);
+}
