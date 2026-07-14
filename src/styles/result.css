@@ -1,0 +1,187 @@
+/* result.css
+   The parse-result modal, and the submit button's loading state.
+   -------------------------------------------------- */
+
+.submit__button:disabled {
+  cursor: progress;
+  opacity: 0.75;
+}
+
+.submit__spinner {
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Modal ---------------------------------------------------- */
+
+.result__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(16, 24, 40, 0.45);
+  backdrop-filter: blur(3px);
+  animation: fade-in var(--normal) var(--ease);
+}
+
+.result {
+  position: relative;
+  width: 100%;
+  max-width: 396px;
+  padding: 26px 26px 22px;
+  text-align: center;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: pop-in var(--normal) var(--ease);
+}
+
+.result__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  color: var(--text-subtle);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.result__close:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+
+/* Verdict badge -------------------------------------------- */
+
+.result__badge {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+}
+
+.result__badge--ok {
+  color: #067647;
+  background: #ecfdf3;
+}
+
+.result__badge--warn {
+  color: #b54708;
+  background: #fffaeb;
+}
+
+.result__badge--error {
+  color: #b42318;
+  background: #fef3f2;
+}
+
+.result__title {
+  margin: 0 0 6px;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.result__subtitle {
+  margin: 0 0 20px;
+  font-size: var(--text-base);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* Stats ----------------------------------------------------- */
+
+.result__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  /* The 1px grid gap over a border-coloured background draws the dividers. */
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.result__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 13px 6px;
+  background: var(--surface-sunken);
+}
+
+.result__stat-icon {
+  margin-bottom: 2px;
+  color: var(--text-subtle);
+}
+
+.result__stat-value {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.result__stat-label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+/* Dismiss --------------------------------------------------- */
+
+.result__dismiss {
+  width: 100%;
+  padding: 9px;
+  font-family: var(--font);
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: var(--primary);
+  border: none;
+  border-radius: var(--radius);
+  transition: background var(--fast) var(--ease);
+}
+
+.result__dismiss:hover {
+  background: var(--primary-strong);
+}
+
+.result__dismiss:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
