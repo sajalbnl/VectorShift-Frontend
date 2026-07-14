@@ -43,6 +43,23 @@ export const useStore = createWithEqualityFn((set, get) => ({
         edges: addEdge({...connection, type: 'smoothstep', animated: true, markerEnd: {type: MarkerType.Arrow, height: '20px', width: '20px'}}, get().edges),
       });
     },
+    // Delete a {{ variable }} that had an edge attached and its handle vanishes,
+    // leaving the edge anchored to nothing. Called by BaseNode whenever a node's
+    // handle set changes, so it protects every node, not just the Text node.
+    pruneStaleEdges: (nodeId, handleIds) => {
+      const isStale = (edge) =>
+        (edge.target === nodeId && edge.targetHandle && !handleIds.includes(edge.targetHandle)) ||
+        (edge.source === nodeId && edge.sourceHandle && !handleIds.includes(edge.sourceHandle));
+
+      const edges = get().edges;
+      const kept = edges.filter((edge) => !isStale(edge));
+
+      // Don't touch state when nothing is stale: an unconditional set() here
+      // would loop forever against the effect that calls this.
+      if (kept.length !== edges.length) {
+        set({ edges: kept });
+      }
+    },
     updateNodeField: (nodeId, fieldName, fieldValue) => {
       set({
         // Replace the node rather than mutating it: React Flow memoizes nodes by

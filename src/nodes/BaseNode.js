@@ -41,16 +41,26 @@ const withOffsets = (handles) => {
 
 export const BaseNode = memo(({ id, data, selected, config }) => {
   const updateNodeField = useStore((state) => state.updateNodeField);
+  const pruneStaleEdges = useStore((state) => state.pruneStaleEdges);
   const updateNodeInternals = useUpdateNodeInternals();
 
   const handles = resolveHandles(config, data);
 
-  // React Flow caches each node's handle list. A handle added without this
-  // notification renders but stays invisible to the connection system.
+  // A primitive that changes only when the handle *set* changes, so the effect
+  // below stays quiet while the user is merely editing a field.
   const handleSignature = handles.map((h) => `${h.type}:${h.position}:${h.id}`).join('|');
+
   useEffect(() => {
+    // React Flow caches each node's handle list. A handle added without this
+    // notification renders but stays invisible to the connection system, so a
+    // {{ variable }} handle would look right and refuse to connect.
     updateNodeInternals(id);
-  }, [id, handleSignature, updateNodeInternals]);
+
+    // A removed {{ variable }} takes its handle with it; drop any edge left
+    // dangling from it.
+    pruneStaleEdges(id, handles.map((handle) => `${id}-${handle.id}`));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, handleSignature, updateNodeInternals, pruneStaleEdges]);
 
   const positionedHandles = useMemo(
     () => withOffsets(handles),
@@ -61,10 +71,13 @@ export const BaseNode = memo(({ id, data, selected, config }) => {
   const Icon = config.icon;
   const Body = config.body;
 
+  // Width may be a function of data — the Text node grows as you type.
+  const width = typeof config.width === 'function' ? config.width(data) : config.width;
+
   return (
     <div
       className={`node node--${config.type} ${selected ? 'node--selected' : ''}`}
-      style={{ '--node-accent': config.accent, width: config.width }}
+      style={{ '--node-accent': config.accent, width }}
     >
       <header className="node__header">
         {Icon && (

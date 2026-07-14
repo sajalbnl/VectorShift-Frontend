@@ -180,6 +180,23 @@ body {
   resize: vertical;
 }
 
+/* Text node: height is driven by JS (scrollHeight), so the user must not be
+   able to fight it with the native resize grabber, and it must never scroll. */
+.node-control--template {
+  min-height: 32px;
+  overflow: hidden;
+  resize: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.text-node__hint {
+  margin: 6px 0 0;
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
 .node-control--checkbox {
   width: auto;
 }
