@@ -2,6 +2,7 @@ import { Workflow } from 'lucide-react';
 import { PipelineToolbar } from './toolbar';
 import { PipelineUI } from './ui';
 import { SubmitButton } from './submit';
+import { HistoryControls } from './history';
 
 function App() {
   return (
@@ -13,7 +14,10 @@ function App() {
           </span>
           Pipeline Builder
         </div>
-        <SubmitButton />
+        <div className="app__actions">
+          <HistoryControls />
+          <SubmitButton />
+        </div>
       </header>
 
       <div className="app__main">

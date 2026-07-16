@@ -149,6 +149,56 @@ body {
   border-radius: 7px;
 }
 
+.app__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* History (undo / redo) ------------------------------------ */
+
+.history {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  background: var(--surface-hover);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+}
+
+.history__button {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: var(--text-subtle);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-pill);
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.history__button:hover:not(:disabled) {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.history__button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.history__button:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.history__button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
 /* Submit --------------------------------------------------- */
 
 .submit__button {
